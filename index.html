@@ -15,6 +15,7 @@
 
 <body>
   <button type="button" class="btn btn-primary btn-lg btn-block">Show More Tweets</button>
+  <br>
   <div id="tweets"></div>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -37,14 +38,11 @@
 
         while (index >= 0) {
           var tweet = streams.home[index];
-          var $tweet = $('<div class="col-md-3"></div>');
-          $tweet.text('@' +
-                      tweet.user +
-                      ': ' +
-                      tweet.message +
-                      'created at: ' +
-                      tweet.created_at
-                      );
+          var $tweet = $('<div class="col-xs-4 list-group"></div>');
+          $tweet.html('<a href="#" class="list-group-item disabled">@' + tweet.user + '</a>' +
+                      '<a href="#" class="list-group-item">' + tweet.message +
+                      '<br><br>' +
+                      '<small>created at: ' + tweet.created_at + '</small></a>');
           $tweet.prependTo($tweets);
           index -= 1;
         }
