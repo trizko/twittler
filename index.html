@@ -11,13 +11,18 @@
 
   <script src="jquery.js"></script>
   <script src="data_generator.js"></script>
+
+  <!-- livestamp plugin -->
+  <script src="moment.js"></script>
+  <script src="livestamp.min.js"></script>
 </head>
 
 <body>
-  <button type="button" class="btn btn-primary btn-lg btn-block">Show More Tweets</button>
-  <br>
-  <div id="tweets"></div>
-
+  <div class="col-xs-4">
+    <button type="button" class="btn btn-primary btn-lg btn-block">Show More Tweets</button>
+    <br>
+    <div id="tweets"></div>
+  </div>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -38,11 +43,15 @@
 
         while (index >= 0) {
           var tweet = streams.home[index];
-          var $tweet = $('<div class="col-xs-4 list-group"></div>');
+          var date_string = '<span data-livestamp="' + streams.home[index].created_at.toISOString() + '"></span>'
+          var $tweet = $('<div class="col-md-4 list-group"></div>');
           $tweet.html('<a href="#" class="list-group-item disabled">@' + tweet.user + '</a>' +
-                      '<a href="#" class="list-group-item">' + tweet.message +
-                      '<br><br>' +
-                      '<small>created at: ' + tweet.created_at + '</small></a>');
+            '<a href="#" class="list-group-item">' + tweet.message +
+            '<br><br>' +
+            '<small>posted ' +
+            date_string +
+            '</small></a>');
+          console.log($tweet);
           $tweet.prependTo($tweets);
           index -= 1;
         }
