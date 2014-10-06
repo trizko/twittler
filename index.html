@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +14,7 @@
 
 <body>
   <button type="button" class="btn btn-primary btn-lg btn-block">Show More Tweets</button>
-  <div id="tweets"></div>
+  <table id="tweets" class="table table-hover"></table>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -27,12 +26,13 @@
       var $tweets = $('#tweets');
 
       var get_tweets = function() {
+        $tweets.text('');
         var index = streams.home.length - 1;
         while (index >= 0) {
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + '\n\ncreated at: ' + tweet.created_at);
-          $tweet.appendTo($tweets);
+          var $tweet = $('<tr></tr>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + '\n\ncreated at: ' + tweet.created_at + '');
+          $tweet.prependTo($tweets);
           index -= 1;
         }
       };
