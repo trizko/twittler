@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <div class="col-xs-4">
+  <div class="col-xs-6">
     <button type="button" class="btn btn-primary btn-lg btn-block">Show More Tweets</button>
     <br>
     <div id="tweets"></div>
@@ -44,14 +44,43 @@
         while (index >= 0) {
           var tweet = streams.home[index];
           var date_string = '<span data-livestamp="' + streams.home[index].created_at.toISOString() + '"></span>'
-          var $tweet = $('<div class="col-md-4 list-group"></div>');
-          $tweet.html('<a href="#" class="list-group-item disabled">@' + tweet.user + '</a>' +
+          var $tweet = $('<div class="col-md-6 list-group"></div>');
+          $tweet.html(
+            '<div class="myLink"><a href="#" class="list-group-item disabled">@' + tweet.user + '</a></div>' +
             '<a href="#" class="list-group-item">' + tweet.message +
             '<br><br>' +
             '<small>posted ' +
             date_string +
-            '</small></a>');
-          console.log($tweet);
+            '</small></a>'
+          );
+          $tweet.prependTo($tweets);
+          index -= 1;
+        }
+        $('.myLink a').click(get_user_tweets);
+      };
+
+      var get_user_tweets = function() {
+        var user_handle = $(this).text().substr(1);
+        $tweets.text('');
+        var index = streams.users[user_handle].length - 1;
+
+        //sort stream to reverse chronological order
+        streams.users[user_handle].sort(function(a, b) {
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+
+        while (index >= 0) {
+          var tweet = streams.users[user_handle][index];
+          var date_string = '<span data-livestamp="' + streams.users[user_handle][index].created_at.toISOString() + '"></span>'
+          var $tweet = $('<div class="col-md-6 list-group"></div>');
+          $tweet.html(
+            '<div class="myLink"><a href="#" class="list-group-item disabled">@' + tweet.user + '</a></div>' +
+            '<a href="#" class="list-group-item">' + tweet.message +
+            '<br><br>' +
+            '<small>posted ' +
+            date_string +
+            '</small></a>'
+          );
           $tweet.prependTo($tweets);
           index -= 1;
         }
@@ -59,8 +88,6 @@
 
       get_tweets();
       $('button').click(get_tweets);
-
-
     });
   </script>
 </body>
